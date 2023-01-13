@@ -1,0 +1,62 @@
+<template name="Chat">
+  <div class="container-fluid">
+    <div class="row mt-1">
+      <div class="col-8">
+        <div class="overflow-auto text-break" style="background-color: #d7d5d5; height: 700px;" id="chat-container">
+          {{#if isSubsReady}}
+            {{#each getMessages}}
+              <div class="row mt-5">
+                <div class="col-sm-1"></div>
+                {{#if isMineMessage from}}
+                  <div class="col-sm-7"></div>
+                {{/if}}
+                <div class="col-sm-3">
+                  <div class="card">
+                    <div class="card-header">
+                      <h6>{{getSenderInfo from}}</h6>
+                      {{#unless isMineMessage from}}
+                        <small>About me: {{getUserDescription from}}</small>
+                      {{/unless}}
+                    </div>
+                    {{#with getReliedMessage reply}}
+                      <div class="card-header">
+                        Reply To: {{username}}<br>
+                        <small>{{message}}</small>
+                      </div>
+                    {{/with}}
+                    <div class="card-body">
+                      <p>{{message}}</p>
+                      <button href="#" class="btn btn-sm btn-primary reply">Reply</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          {{else}}
+            <p>Loading...</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{#if isReply}}
+      <div class="row mt-5">
+        <div class="col-auto">
+          {{#with getMessageToReply}}
+            Reply To: {{username}} - <small>{{message}}</small>
+          {{/with}}
+        </div>
+      </div>
+    {{/if}}
+    <form class="send-message-form">
+      <div class="row mt-5">
+        <div class="col-auto">
+          <label for="message" class="visually-hidden">Message</label>
+          <input type="text" class="form-control" id="message" placeholder="message">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-3 send">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
